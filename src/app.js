@@ -2,6 +2,7 @@ import express from 'express'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import authRoutes from './routes/auth.route.js'
+import clientRoutes from './routes/client.routes.js'
 
 //inicio del servidor
 const app = express();
@@ -13,5 +14,6 @@ app.use(cookieParser())
 
 //utilizar las rutas
 app.use("/api", authRoutes)
+app.use(clientRoutes)
 
 export default app
