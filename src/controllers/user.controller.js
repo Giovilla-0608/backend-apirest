@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { TOKEN_SECRET } from "../config.js"
 
-export const registro = async(req, res)=>{
+export const register = async(req, res)=>{
     const {username, email, password} = req.body;
 
     try {
@@ -14,7 +14,7 @@ export const registro = async(req, res)=>{
 
         const passwordHass = await bcrypt.hash(password, 10)
         const newUser = new User({
-            userName, email, password: passwordHass
+            username, email, password: passwordHass
         })
         //esta logica es para guardar este documento en la base de datos
         const saveUser = await newUser.save();
@@ -25,7 +25,7 @@ export const registro = async(req, res)=>{
         //respuesta al cliente
         res.json({
             email: saveUser.email,
-            username: saveUser.userName,
+            username: saveUser.username,
             id: saveUser.id
         })
     } catch (error) {
@@ -71,13 +71,13 @@ export const logout = (req, res) => {
 }
 
 export const profile = async(req, res) => {
-    const userFound = await User.findById(req.user.id)
+    const usuarioEncontrado = await User.findById(req.user.id)
 
-    if(!userFound) return res.status(400).json(["user not found"]);
+    if(!usuarioEncontrado) return res.status(400).json(["user not found"]);
 
     return res.json({
-        id: userFound._id,
-        username: userFound.username,
-        email: userFound.email,
+        id: usuarioEncontrado._id,
+        username: usuarioEncontrado.username,
+        email: usuarioEncontrado.email,
     })
-}
+}   

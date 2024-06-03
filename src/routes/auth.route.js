@@ -1,12 +1,14 @@
 import { Router } from "express"
-import { registro, login, logout, profile } from '../controllers/user.controller.js';
+import { register, login, logout, profile } from '../controllers/user.controller.js';
 import { authRequired } from '../middlewares/validateToken.js'
+import {validateSchema} from '../middlewares/validatorMiddleware.js'
+import { loginSchema, registerSchema } from "../schemas/user.schema.js";
 
 const router = Router();
 
 //peticiones
-router.post('/register', registro)
-router.post('/login', login)
+router.post('/register', validateSchema(registerSchema), register)
+router.post('/login', validateSchema(loginSchema), login)
 router.post('/logout', logout)
 router.get('/profile',authRequired ,profile)
 
